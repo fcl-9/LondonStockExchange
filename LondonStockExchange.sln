@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExchange.DataProcessing.Read.Api", "LondonStockExchange.DataProcessing.Read.Api\LondonStockExchange.DataProcessing.Read.Api.csproj", "{F5757705-88C7-4E79-91CB-574FFCDBF1B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExnchange.DataProcessing.Write.Service", "LondonStockExnchange.DataProcessing.Write.Service\LondonStockExnchange.DataProcessing.Write.Service.csproj", "{248F85CD-CAAC-42D8-9657-256108F57013}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5757705-88C7-4E79-91CB-574FFCDBF1B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5757705-88C7-4E79-91CB-574FFCDBF1B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5757705-88C7-4E79-91CB-574FFCDBF1B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5757705-88C7-4E79-91CB-574FFCDBF1B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{248F85CD-CAAC-42D8-9657-256108F57013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{248F85CD-CAAC-42D8-9657-256108F57013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{248F85CD-CAAC-42D8-9657-256108F57013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{248F85CD-CAAC-42D8-9657-256108F57013}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
