@@ -1,4 +1,6 @@
-﻿namespace LondonStockExnchange.DataProcessing.Write.Service.Infrastructure
+﻿using LondonStockExchange.DataProcessing.Contracts;
+
+namespace LondonStockExnchange.DataProcessing.Write.Service.Infrastructure.Repository
 {
     internal class TransactionRepository : ITransactionRepository
     {
@@ -9,7 +11,7 @@
             this.context=context;
         }
 
-        public void AddTransaction(object transactionPlaced)
+        public void AddTransaction(TransactionPlaced transactionPlaced)
         {
             context.Add(transactionPlaced);
             context.SaveChanges();
