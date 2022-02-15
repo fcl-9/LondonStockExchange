@@ -14,7 +14,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
         }
 
         [HttpGet("value")]
-        public IEnumerable<WeatherForecast> GetStockValueByTickerSymbol(string tickerSymbol)
+        public IEnumerable<dynamic> GetStockValueByTickerSymbol(string tickerSymbol)
         {
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             //{
