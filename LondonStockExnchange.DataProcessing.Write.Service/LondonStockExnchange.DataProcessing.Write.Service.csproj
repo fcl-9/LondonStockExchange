@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-LondonStockExnchange.DataProcessing.Write.Service-939EF468-17A0-427E-9084-7CCD35654CA2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Infrastructure\erndblwx.qeq~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+    <PackageReference Include="NServiceBus" Version="7.6.0" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0" />
+  </ItemGroup>
+</Project>
