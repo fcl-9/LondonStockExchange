@@ -1,3 +1,4 @@
+using LondonStockExchange.DataProcessing.Contracts;
 using LondonStockExnchange.DataProcessing.Write.Service.Infrastructure;
 using LondonStockExnchange.DataProcessing.Write.Service.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .UseNServiceBus(ctx =>
     {
-        var endpointConfiguration = new EndpointConfiguration("DataProcessing.Writer");
+        var endpointConfiguration = new EndpointConfiguration(Constants.WriterService);
         var transport = endpointConfiguration.UseTransport<LearningTransport>();
         return endpointConfiguration;
     })
