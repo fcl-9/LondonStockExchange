@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExchange.DataPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExnchange.DataProcessing.Write.Service", "LondonStockExnchange.DataProcessing.Write.Service\LondonStockExnchange.DataProcessing.Write.Service.csproj", "{248F85CD-CAAC-42D8-9657-256108F57013}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExchange.DataProcessing.Contracts", "LondonStockExchange.DataProcessing.Contracts\LondonStockExchange.DataProcessing.Contracts.csproj", "{F5ABBDB5-C02D-4694-A20A-C4B92441AA97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LondonStockExchange.DataProducer", "LondonStockExchange.DataIngestion\LondonStockExchange.DataProducer.csproj", "{DCC6E063-825D-4317-9C26-A0F81DDD69AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2A83A122-DA63-4EDD-A780-0C8610F25690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LondonStockExchange.DataProcessing.Tests", "LondonStockExchange.DataProcessing.Tests\LondonStockExchange.DataProcessing.Tests.csproj", "{E356B182-A067-40AD-86F6-8C96AEF8F369}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +29,25 @@ Global
 		{248F85CD-CAAC-42D8-9657-256108F57013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{248F85CD-CAAC-42D8-9657-256108F57013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{248F85CD-CAAC-42D8-9657-256108F57013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5ABBDB5-C02D-4694-A20A-C4B92441AA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5ABBDB5-C02D-4694-A20A-C4B92441AA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5ABBDB5-C02D-4694-A20A-C4B92441AA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5ABBDB5-C02D-4694-A20A-C4B92441AA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCC6E063-825D-4317-9C26-A0F81DDD69AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC6E063-825D-4317-9C26-A0F81DDD69AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC6E063-825D-4317-9C26-A0F81DDD69AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC6E063-825D-4317-9C26-A0F81DDD69AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E356B182-A067-40AD-86F6-8C96AEF8F369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E356B182-A067-40AD-86F6-8C96AEF8F369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E356B182-A067-40AD-86F6-8C96AEF8F369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E356B182-A067-40AD-86F6-8C96AEF8F369}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCC6E063-825D-4317-9C26-A0F81DDD69AC} = {2A83A122-DA63-4EDD-A780-0C8610F25690}
+		{E356B182-A067-40AD-86F6-8C96AEF8F369} = {2A83A122-DA63-4EDD-A780-0C8610F25690}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ED8AB17-5F5C-4C49-BD08-9B98FB876E38}

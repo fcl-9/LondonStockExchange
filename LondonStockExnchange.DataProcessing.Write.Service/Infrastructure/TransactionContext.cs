@@ -11,7 +11,7 @@ namespace LondonStockExnchange.DataProcessing.Write.Service.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TransactionPlaced>().HasKey(t => new { t.TickerSymbol, t.PlacedDateTime });
+            modelBuilder.Entity<TransactionPlaced>().HasKey(t => new { t.TickerSymbol, t.TradeDateTime });
         }
     }
 }

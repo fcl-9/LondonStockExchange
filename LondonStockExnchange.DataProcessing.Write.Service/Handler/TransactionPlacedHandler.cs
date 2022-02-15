@@ -17,7 +17,7 @@ namespace LondonStockExnchange.DataProcessing.Write.Service.Handler
 
         public Task Handle(TransactionPlaced message, IMessageHandlerContext context)
         {
-            logger.LogInformation($"A new transaction has been placed at {message.PlacedDateTime} for ticker: {message.TickerSymbol}");
+            logger.LogInformation($"A new transaction has been placed at {message.TradeDateTime} for ticker: {message.TickerSymbol}");
             transactionRepository.AddTransaction(message);
             return Task.CompletedTask;
         }
