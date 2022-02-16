@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NServiceBus.Testing" Version="7.3.0" />
@@ -24,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LondonStockExchange.DataProcessing.Read.Api\LondonStockExchange.DataProcessing.Read.Api.csproj" />
     <ProjectReference Include="..\LondonStockExnchange.DataProcessing.Write.Service\LondonStockExnchange.DataProcessing.Write.Service.csproj" />
   </ItemGroup>
 
