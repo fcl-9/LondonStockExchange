@@ -19,9 +19,9 @@ You will need a SQL server installed and before trying to run the system you sho
 # Considerations 
 ## System Architecture
 The system architecture is composed of:
-A queue which can deal with high amount of messages comming into the system.
-A set of Write Services which main purpose is to write the data from the queue into the database.
-A set of Read Services which main purpose if to read the data that was written into the database.
+- A queue which can deal with high amount of messages comming into the system.
+- A set of Write Services which main purpose is to write the data from the queue into the database.
+- A set of Read Services which main purpose if to read the data that was written into the database.
 
 The system is using CQRS which essentialy means we have separate the part of the system that deals with writes and read. This was done because the system needs to deal with high volumes of messages comming into the system and as I was not sure about the amount of read I thought it would be better to separate them to avoid having issue in case there is a high number of reads as well.
 
