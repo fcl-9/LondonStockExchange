@@ -51,8 +51,7 @@ Why TradeDateTime in Transaction model?
 Why not using DDD?
 - DDD and microservice get along really well as DDD helps to do functional boundaries of the system. The system that I was asked to build is not heavy in regards to business logic for this reason there was no need to apply any DDD.
 
-#Initial Version
-# System Architecture V1 (**This architecture is not the one the system is reflecting**)
+# Initial System Architecture V1 (**This architecture is not the one the system is reflecting**)
 The system architecture went though various changes. Initialy I considered the part of the system that deals ingestion of data. As I was not sure how brokers would be sending us data the system was designed so that:
 - They could interact through Ingestion API which would be hidden under a LoadBalancer to allow for high volume of requests. 
 - They could interact through the queue that could be acessible to them.
