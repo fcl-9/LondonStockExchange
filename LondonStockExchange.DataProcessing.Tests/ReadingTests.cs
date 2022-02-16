@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using LondonStockExchange.DataProcessing.Read.Api.Controllers;
 using LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository;
+using LondonStockExchange.DataProcessing.Read.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -33,7 +34,7 @@ namespace LondonStockExchange.DataProcessing.Tests
         public async Task GiveGetStockCurrentValue_WhenTickerSymbolIsValid_ThenOkIsReturned()
         {
             var tickerSymbol = "APPL";
-            mockStockRepository.Setup(m => m.GetValueByTickerSymbol(tickerSymbol)).ReturnsAsync(new List<dynamic>() { "SOMEDATA" });
+            mockStockRepository.Setup(m => m.GetValueByTickerSymbol(tickerSymbol)).ReturnsAsync(new StockTicker());
 
             var result = await sut.GetStockValueByTickerSymbolAsync(tickerSymbol);
 
@@ -57,7 +58,7 @@ namespace LondonStockExchange.DataProcessing.Tests
         {
             var pageSize = 1;
             var pageNumber = 2;
-            mockStockRepository.Setup(m => m.GetValuesForAllTickers(pageNumber, pageSize)).ReturnsAsync(new List<dynamic>() { "SOMEDATA" });
+            mockStockRepository.Setup(m => m.GetValuesForAllTickers(pageNumber, pageSize)).ReturnsAsync(new [] { new StockTicker() });
          
             var result = await sut.GetAllStockValues(pageNumber, pageSize);
 
@@ -75,7 +76,7 @@ namespace LondonStockExchange.DataProcessing.Tests
         public async Task GivenGetStocksValuesByTickerSymbols_WhenTickerSymbolsAreValid_ThenOkIsReturned()
         {
             var requestInput = new List<string>() { "APPL", "FB" };
-            mockStockRepository.Setup(m => m.GetValuesByTickerSymbols(requestInput)).ReturnsAsync(new List<dynamic>() { "SOMEDATA" });
+            mockStockRepository.Setup(m => m.GetValuesByTickerSymbols(requestInput)).ReturnsAsync(new [] { new StockTicker() });
 
             var result = await sut.GetStockValueByTickerSymbols(requestInput);
             

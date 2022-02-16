@@ -1,9 +1,11 @@
-﻿namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
+﻿using LondonStockExchange.DataProcessing.Read.Api.Models;
+
+namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
 {
     public interface IStockRepository
     {
-        Task<dynamic?> GetValueByTickerSymbol(string tickerSymbol);
-        Task<IEnumerable<dynamic>> GetValuesByTickerSymbols(IEnumerable<string> tickerSymbols);
-        Task<IEnumerable<dynamic>> GetValuesForAllTickers(int pageNumber, int pageSize);
+        Task<StockTicker?> GetValueByTickerSymbol(string tickerSymbol);
+        Task<IEnumerable<StockTicker>> GetValuesByTickerSymbols(IEnumerable<string> tickerSymbols);
+        Task<IEnumerable<StockTicker>> GetValuesForAllTickers(int pageNumber, int pageSize);
     }
 }

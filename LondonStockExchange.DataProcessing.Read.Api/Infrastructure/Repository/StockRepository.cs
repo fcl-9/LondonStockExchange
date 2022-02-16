@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using LondonStockExchange.DataProcessing.Read.Api.Models;
 using Microsoft.Data.SqlClient;
 
 namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
@@ -12,7 +13,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
             this.connectionString=connectionString;
         }
 
-        public async Task<dynamic> GetValueByTickerSymbol(string tickerSymbol)
+        public async Task<StockTicker?> GetValueByTickerSymbol(string tickerSymbol)
         {
             var sql = @"SELECT TOP 1 [TickerSymbol], [TradeDateTime], [Price],[Currency] 
                         FROM[LondonStockExchange_Transactions_Writes].[dbo].[Transactions]
@@ -22,11 +23,11 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
             await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
-            var lastStockPrice = await connection.QueryFirstOrDefaultAsync<object>(sql, new { TickerSymbol = tickerSymbol });
+            var lastStockPrice = await connection.QueryFirstOrDefaultAsync<StockTicker>(sql, new { TickerSymbol = tickerSymbol });
             return lastStockPrice;
         }
 
-        public async Task<IEnumerable<dynamic>> GetValuesByTickerSymbols(IEnumerable<string> tickerSymbols)
+        public async Task<IEnumerable<StockTicker>> GetValuesByTickerSymbols(IEnumerable<string> tickerSymbols)
         {
             var sql = @"
                 Select t1.TickerSymbol, t1.Price, t1.Currency, t1.TradeDateTime
@@ -45,11 +46,11 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
             await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
-            var lastStockPricesForTickers = await connection.QueryAsync<object>(sql, new { TickerSymbols = tickerSymbols.ToArray() });
+            var lastStockPricesForTickers = await connection.QueryAsync<StockTicker>(sql, new { TickerSymbols = tickerSymbols.ToArray() });
             return lastStockPricesForTickers;
         }
 
-        public async Task<IEnumerable<dynamic>> GetValuesForAllTickers(int pageNumber, int pageSize)
+        public async Task<IEnumerable<StockTicker>> GetValuesForAllTickers(int pageNumber, int pageSize)
         {
             var sql = @"Select t1.TickerSymbol, t1.Price, t1.Currency, t1.TradeDateTime
                         from [LondonStockExchange_Transactions_Writes].[dbo].[Transactions] as t1
@@ -68,7 +69,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
             await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
-            var lastStockPricesForTickers = await connection.QueryAsync<object>(sql, new { PageNumber = pageNumber, PageSize = pageSize });
+            var lastStockPricesForTickers = await connection.QueryAsync<StockTicker>(sql, new { PageNumber = pageNumber, PageSize = pageSize });
             return lastStockPricesForTickers;
         }
     }
