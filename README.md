@@ -8,19 +8,21 @@ This solution contains five different projects:
 
 # How To Run:
 - Pre-requisites:
-You will need a SQL server installed (I used https://www.microsoft.com/en-gb/sql-server/sql-server-downloads).
-After installing the SQL Server run the SQL scripts found in /SQL folder to setup the database and its tables. You will endup with something as follows:
+  - You will need a SQL server installed (I used https://www.microsoft.com/en-gb/sql-server/sql-server-downloads).
+  - After installing the SQL Server run the SQL scripts found in /SQL folder to setup the database and its tables. You will endup with something as follows (no data in the table!):
 ![image](https://user-images.githubusercontent.com/10722526/154356309-89bab495-1687-4779-b098-07a1495d5510.png)
-The connection strings in all projects that require database access use SSPI authentication due to this there is no need to do any changes in the projects. If you still decide to change them connection string can be modified at appSettings.Development.json
+  - The connection strings in all projects that require database access use SSPI authentication due to this there is no need to do any changes in the projects. If you still decide to change them connection string can be modified at appSettings.Development.json
 
 - You need to start the following services:
-1 - LondonStockExchange.DataProducer - This service will simulate a LondonStockExchange Feed (Produces 10 Transactions Per Request).
-2 - LondonStockExnchange.DataProcessing.Write.Service - This service will consume the LondonStockExchange Feed.
-3 - LondonStockExchange.DataProcessing.Read.Api - This service will expose last prices for stocks received.
+  - 1 - LondonStockExchange.DataProducer - This service will simulate a LondonStockExchange Feed (Produces 10 Transactions Per Request).
+  - 2 - LondonStockExnchange.DataProcessing.Write.Service - This service will consume the LondonStockExchange Feed.
+  - 3 - LondonStockExchange.DataProcessing.Read.Api - This service will expose last prices for stocks received.
 ![image](https://user-images.githubusercontent.com/10722526/154355778-c439de38-c45e-45a1-90ba-a28f7b222e74.png)
 
 # Considerations 
-## System Architecture V2 (Focus On Processing)
+- In the upcoming sections I discuss some of the decisions took.
+
+## Latest System Architecture V2 (Focus On Processing)
 The system architecture is composed of:
 - A queue which can deal with high volumes of messages comming into the system.
 - A Write Service which main purpose is to write the data from the queue into the database.
@@ -41,13 +43,13 @@ The system design shows the use of Primary/Replica database, but this was not im
 
 ### Coding Decisions And Librarires
 Why NServiceBus? 
-I decided to use NServiceBus as this facilitates the simulation of queues and that was the main reason why I decided to use it. Currently I am using a Learning Transport but obviously this would be using Azure Service Bus or other queuing system.
+- I decided to use NServiceBus as this facilitates the simulation of queues and that was the main reason why I decided to use it. Currently I am using a Learning Transport but obviously this would be using Azure Service Bus or other queuing system.
 
 Why TradeDateTime in Transaction model?
 - This is the time of the trade was placed and will allow us to infer what was the last trade for a given ticker. This help was our system is insert only system and there are no updates (optimistic or pessimistic concurrency handling).
 
 Why not using DDD?
-DDD and microservice get along really well as DDD helps to do functional boundaries of the system. The system that I was asked to build is not heavy in regards to business logic for this reason there was no need to apply any DDD.
+- DDD and microservice get along really well as DDD helps to do functional boundaries of the system. The system that I was asked to build is not heavy in regards to business logic for this reason there was no need to apply any DDD.
 
 #Initial Version
 # System Architecture V1 (**This architecture is not the one the system is reflecting**)
