@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository;
+using LondonStockExchange.DataProcessing.Read.Api.Models;
 
 namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
 {
@@ -10,16 +11,16 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
     public class StockController : ControllerBase
     {
         private readonly IStockRepository stockRepository;
-        private readonly ILogger<StockController> _logger;
+        private readonly ILogger<StockController> logger;
 
         public StockController(IStockRepository stockRepository, ILogger<StockController> logger)
         {
             this.stockRepository=stockRepository;
-            _logger = logger;
+            this.logger = logger;
         }
 
         [HttpGet("value")]
-        public async Task<ActionResult<dynamic>> GetStockValueByTickerSymbolAsync(string tickerSymbol)
+        public async Task<ActionResult<StockTicker>> GetStockValueByTickerSymbolAsync(string tickerSymbol)
         {
             if(string.IsNullOrEmpty(tickerSymbol))
             {
@@ -35,7 +36,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
         }
 
         [HttpGet("/stocks/value/all")]
-        public async Task<ActionResult<IEnumerable<dynamic>>> GetAllStockValues(int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<StockTicker>>> GetAllStockValues(int pageNumber, int pageSize)
         {
             if (pageNumber <= 0) { return BadRequest("PageNumber less than 1 is not allowed."); }
             if (pageSize <= 0){ return BadRequest("PageSize less than 1 is not allowed"); }
@@ -50,7 +51,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
         }
 
         [HttpGet("/stocks/value")]
-        public async Task<ActionResult<IEnumerable<dynamic>>> GetStockValueByTickerSymbols([FromQuery] IEnumerable<string> tickerSymbols)
+        public async Task<ActionResult<IEnumerable<StockTicker>>> GetStockValueByTickerSymbols([FromQuery] IEnumerable<string> tickerSymbols)
         {
             if(!tickerSymbols.Any())
             {
