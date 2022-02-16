@@ -8,6 +8,8 @@ namespace LondonStockExchange.DataProcessing.Contracts
 {
     public class Constants
     {
+        public const string IngestionService = "Data.Ingestor";
         public const string WriterService = "DataProcessing.Writer";
+        public const string ReaderService = "DataProcessing.Reader";
     }
 }

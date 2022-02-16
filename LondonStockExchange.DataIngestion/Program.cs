@@ -1,15 +1,13 @@
 using LondonStockExchange.DataProcessing.Contracts;
 using NServiceBus;
 
-const string IngestionService = "DataIngestion";
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-Console.Title = IngestionService;
+Console.Title = Constants.IngestionService;
 builder.Host.UseNServiceBus(ctx => {
 
-    var endpointConfiguration = new EndpointConfiguration(IngestionService);
+    var endpointConfiguration = new EndpointConfiguration(Constants.IngestionService);
     var transport = endpointConfiguration.UseTransport<LearningTransport>();
 
     var conventions = endpointConfiguration.Conventions();

@@ -4,6 +4,7 @@ using LondonStockExnchange.DataProcessing.Write.Service.Infrastructure.Repositor
 using Microsoft.EntityFrameworkCore;
 using NServiceBus;
 
+
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
@@ -13,6 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .UseNServiceBus(ctx =>
     {
+        Console.Title = Constants.WriterService;
         var endpointConfiguration = new EndpointConfiguration(Constants.WriterService);
         var transport = endpointConfiguration.UseTransport<LearningTransport>();
         return endpointConfiguration;

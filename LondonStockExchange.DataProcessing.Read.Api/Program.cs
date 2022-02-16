@@ -1,4 +1,7 @@
+using LondonStockExchange.DataProcessing.Contracts;
 using LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository;
+
+Console.Title = Constants.ReaderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
