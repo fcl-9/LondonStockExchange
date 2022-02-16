@@ -6,9 +6,9 @@ using NServiceBus;
 
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddDbContext<TransactionContext>(dbOptions => dbOptions.UseSqlServer("Server=localhost;Database=LondonStockExchange_Transactions_Writes;Integrated Security=SSPI;MultipleActiveResultSets=true"));
+    .ConfigureServices((hostContext, services) =>
+    {        
+        services.AddDbContext<TransactionContext>(dbOptions => dbOptions.UseSqlServer(hostContext.Configuration.GetConnectionString("Database")));
         services.AddScoped<ITransactionRepository, TransactionRepository>();
     
     })
