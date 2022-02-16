@@ -40,13 +40,14 @@ The system design shows the use of Primary/Replica database, but this was not im
 
 ### Coding Decisions That Impact System Throughtput:
 - Services writing to the database do not update data they are insert only services. This increases the costs of the database storage and may reduce system performance on the long run (data will grow) but reduces the  concurrency problems which could slow down the system if we decide to have multiple replicas of the writing service running in parallel. To minimize the effects of this we could have in place a business process which would move part of the data that wouldn't be used to a data warehouse for example.
+- The fact that we have a insert only system may also increase the complexity of some of our queries.
 
 ### Coding Decisions And Librarires
 Why NServiceBus? 
 - I decided to use NServiceBus as this facilitates the simulation of queues and that was the main reason why I decided to use it. Currently I am using a Learning Transport but obviously this would be using Azure Service Bus or other queuing system.
 
 Why TradeDateTime in Transaction model?
-- This is the time of the trade was placed and will allow us to infer what was the last trade for a given ticker. This help was our system is insert only system and there are no updates (optimistic or pessimistic concurrency handling).
+- This is the time when the trade was placed and will allow us to infer what was the last trade for a given ticker. This help us to build a insert only system were there are no updates (optimistic or pessimistic concurrency handling).
 
 Why not using DDD?
 - DDD and microservice get along really well as DDD helps to do functional boundaries of the system. The system that I was asked to build is not heavy in regards to business logic for this reason there was no need to apply any DDD.
