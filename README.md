@@ -8,45 +8,51 @@ This project contains five different projects:
 
 # How To Run:
 - Pre-requisites:
-You will need a SQL server installed and before trying to run the system you should run a SQL script which will setup the database that is being used by the system.
-The connection strings in the current project use SSPI authentication due to this there is no need to do any changes on the project.
+You will need a SQL server installed (I used https://www.microsoft.com/en-gb/sql-server/sql-server-downloads).
+After installing the SQL Server run the SQL scripts found in /SQL folder to setup the database and its tables. You will endup with something as follows:
+![image](https://user-images.githubusercontent.com/10722526/154356309-89bab495-1687-4779-b098-07a1495d5510.png)
+The connection strings in all projects that require database access use SSPI authentication due to this there is no need to do any changes in the projects. If you still decide to change them connection string can be modified at appSettings.Development.json
 
-- You shall start:
+- You need to start the following services:
 1 - LondonStockExchange.DataProducer - This service will simulate a LondonStockExchange Feed (Produces 10 Transactions Per Request).
 2 - LondonStockExnchange.DataProcessing.Write.Service - This service will consume the LondonStockExchange Feed.
 3 - LondonStockExchange.DataProcessing.Read.Api - This service will expose last prices for stocks received.
-
-# System Architecture V1 (**This architecture is not the one the system is reflecting**)
-The system architecture went though various changes. Initialy I considered the part of the system that deals ingestion of data. As I was not sure how brokers would be sending us data the system was designed so that:
-- They could interact though Ingestion API which would be hidden under a LoadBalancer. 
-- They could interact though the queue that could be acessible to them.
-During this phase of the system deisgn I was also considering to have Writing and Reading functionalities living in process. These would be reading and writing from the same database.
-![image](https://user-images.githubusercontent.com/10722526/154350689-f13fd40c-e667-49fa-bbed-2610c0813beb.png)
-
-
-
+![image](https://user-images.githubusercontent.com/10722526/154355778-c439de38-c45e-45a1-90ba-a28f7b222e74.png)
 
 # Considerations 
-## System Architecture Processing
+## System Architecture V2 (Focus On Processing)
 The system architecture is composed of:
-- A queue which can deal with high amount of messages comming into the system.
-- A set of Write Services which main purpose is to write the data from the queue into the database.
-- A set of Read Services which main purpose if to read the data that was written into the database.
+- A queue which can deal with high volumes of messages comming into the system.
+- A Write Service which main purpose is to write the data from the queue into the database.
+- A Read Service which main purpose if to read the data from the database.
 
-The system is using "CQRS" which essentialy means we have separated the part of the system that deals with writes and read. This was done because the system needs to deal with high volumes of messages comming in, as I was not sure on the amount of reads I thought it would be better to separate them to avoid having issues in case there is a high number of reads as well.
+The system uses some of the concepts of "CQRS" which essentialy means we have separated the part of the system that deals with writes and read. This was done because the system needs to deal with high volumes of messages comming in, as I was not sure on the amount of reads I thought it would be better to separate them to avoid having issues in case there is a high number of reads as well.
 
-The system design shows the use of Primary/Replica database, but this was not implemented as this is more of a infrastructure consideration. So we have a single database from which we read and write data.
-![image](https://user-images.githubusercontent.com/10722526/154343582-3d137be7-3b85-43cc-95e5-aa50d25e0b8c.png)
+The system design shows the use of Primary/Replica database, but this was not implemented as this is more of a infrastructure consideration. I was not sure about the consistency level of the system. One higly scalable system with strong consistency is very hard to acheive so I assumed that the system would be "eventually consistent" (or have some delay) and decided to use database replicas. The primary database is used for writes, and the replica used for reads. 
 
-### Coding Decisions That Impact System Throughtput:
-- Services writing to the database do not update data they are insert only services. This increases the costs of the database storage and may reduce system performance on the long run but reduces the problems concurrency specially which could slow down the system if we decide to have multiple replicas of the writing service running in parallel. To minimize the effects of this we could have in place a business process which would move part of the data that wouldn't be used to a data warehouse.
+![image](https://user-images.githubusercontent.com/10722526/154353210-28f1fe04-3462-4f4e-8071-5016bafdcb55.png)
 
 ### Bottlenecks in Architecture
-- Queue may be a bottleneck as for high volumes of messages it may take sometime to process them.
-- Database we have a single instance of the database which is used to write and read data.
+- Queue may be a bottleneck they introduce resilience into the system and reduce problems with requests timing out, but they introduce latency as services may nor be able to coupe with the amount of data being ingested.
+- Database we have a single instance of the database which is used to write and read data, this is essentialy slowing down the overall performance of the system. Event with the implementation highlighed in the architecture where we would have a Primary and Replicate database we could still have problems when writing if the volumes are really high.
 
-### System Architecture V1
-The system architecture presented before went through a few changes.
-Intially I was considering the ingestion of the data as a part of the system. 
+### Coding Decisions That Impact System Throughtput:
+- Services writing to the database do not update data they are insert only services. This increases the costs of the database storage and may reduce system performance on the long run (data will grow) but reduces the  concurrency problems which could slow down the system if we decide to have multiple replicas of the writing service running in parallel. To minimize the effects of this we could have in place a business process which would move part of the data that wouldn't be used to a data warehouse for example.
 
+### Coding Decisions And Librarires
+Why NServiceBus? 
+I decided to use NServiceBus as this facilitates the simulation of queues and that was the main reason why I decided to use it. Currently I am using a Learning Transport but obviously this would be using Azure Service Bus or other queuing system.
 
+Why TradeDateTime in Transaction model?
+- This is the time of the trade was placed and will allow us to infer what was the last trade for a given ticker. This help was our system is insert only system and there are no updates (optimistic or pessimistic concurrency handling).
+
+Why not using DDD?
+DDD and microservice get along really well as DDD helps to do functional boundaries of the system. The system that I was asked to build is not heavy in regards to business logic for this reason there was no need to apply any DDD.
+
+#Initial Version
+# System Architecture V1 (**This architecture is not the one the system is reflecting**)
+The system architecture went though various changes. Initialy I considered the part of the system that deals ingestion of data. As I was not sure how brokers would be sending us data the system was designed so that:
+- They could interact through Ingestion API which would be hidden under a LoadBalancer to allow for high volume of requests. 
+- They could interact through the queue that could be acessible to them.
+During this phase of the system deisgn I was also considering to have Writing and Reading functionalities living alongside in process. These would be reading and writing from the same database.
+![image](https://user-images.githubusercontent.com/10722526/154350689-f13fd40c-e667-49fa-bbed-2610c0813beb.png)
