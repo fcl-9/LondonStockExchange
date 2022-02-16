@@ -35,7 +35,7 @@ The system design shows the use of Primary/Replica database, but this was not im
 ![image](https://user-images.githubusercontent.com/10722526/154353210-28f1fe04-3462-4f4e-8071-5016bafdcb55.png)
 
 ### Bottlenecks in Architecture
-- Queue may be a bottleneck they introduce resilience into the system and reduce problems with requests timing out, but they introduce latency as services may nor be able to coupe with the amount of data being ingested.
+- Queue may be a bottleneck they introduce resilience into the system and reduce problems with requests timing out, but they introduce latency as services may not be able to coupe with the amount of data being ingested.
 - Database we have a single instance of the database which is used to write and read data, this is essentialy slowing down the overall performance of the system. Event with the implementation highlighed in the architecture where we would have a Primary and Replicate database we could still have problems when writing if the volumes are really high.
 
 ### Coding Decisions That Impact System Throughtput:
