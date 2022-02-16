@@ -1,5 +1,5 @@
 # LondonStockExchange
-This project contains five different projects:
+This solution contains five different projects:
 - LondonStockExchange.DataProducer - Opens an Swagger page which can be used to ingest data into the system.
 - LondonStockExchange.DataProcessing.Tests - This project contains test for all projects in the system.
 - LondonStockExchange.DataProcessing.Contracts - This project contains contracts that had to be shared between projects.
