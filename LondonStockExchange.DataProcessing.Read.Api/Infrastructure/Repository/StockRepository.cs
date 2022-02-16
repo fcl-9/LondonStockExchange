@@ -19,7 +19,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
                         WHERE TickerSymbol = @TickerSymbol
                         ORDER BY TradeDateTime DESC";
 
-            await using var connection = new SqlConnection();
+            await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
             var lastStockPrice = await connection.QueryFirstOrDefaultAsync<object>(sql, new { TickerSymbol = tickerSymbol });
@@ -42,7 +42,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
                 and t1.TickerSymbol = t.TickerSymbol
                 ";
 
-            await using var connection = new SqlConnection("Server=localhost;Database=LondonStockExchange_Transactions_Writes;Integrated Security=SSPI;MultipleActiveResultSets=true;TrustServerCertificate=True");
+            await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
             var lastStockPricesForTickers = await connection.QueryAsync<object>(sql, new { TickerSymbols = tickerSymbols.ToArray() });
@@ -65,7 +65,7 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Infrastructure.Repository
                         on t1.TradeDateTime = t.LastestDate
                         and t1.TickerSymbol = t.TickerSymbol";
 
-            await using var connection = new SqlConnection("Server=localhost;Database=LondonStockExchange_Transactions_Writes;Integrated Security=SSPI;MultipleActiveResultSets=true;TrustServerCertificate=True");
+            await using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
 
             var lastStockPricesForTickers = await connection.QueryAsync<object>(sql, new { PageNumber = pageNumber, PageSize = pageSize });

@@ -18,10 +18,6 @@ namespace LondonStockExchange.DataProcessing.Read.Api.Controllers
             _logger = logger;
         }
 
-        public StockController()
-        {
-        }
-
         [HttpGet("value")]
         public async Task<ActionResult<dynamic>> GetStockValueByTickerSymbolAsync(string tickerSymbol)
         {
